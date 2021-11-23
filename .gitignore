@@ -21,3 +21,105 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+package com.gohootjava.com;
+
+import java.util.*;
+
+import static java.lang.Math.abs;
+
+public class Main {
+
+    public static void main(String[] args) {
+        // write your code here
+        Scanner scanner = new Scanner(System.in);
+
+        char[][] gameBoard = {{'-', '-', '-', '-', '-', '-', '-', '-', '-'},
+                {'|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+                {'|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+                {'|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+                {'-', '-', '-', '-', '-', '-', '-', '-', '-'}};
+
+        System.out.print("Enter cells: ");
+        String userInput = scanner.nextLine();
+        char[] pos = userInput.toCharArray();
+        placePiece(gameBoard, pos);
+        printGameBoard(gameBoard);
+        checkTheWinner(placePiece(gameBoard, pos));
+
+    }
+
+    private static void checkTheWinner(char[][] board) {
+        boolean X = false;
+        boolean O = false;
+        int numX = 0;
+        int numO = 0;
+        if ((board[1][2] == 'X' && board[1][4] == 'X' && board[1][6] == 'X') ||
+                (board[2][2] == 'X' && board[2][4] == 'X' && board[2][6] == 'X') ||
+                (board[3][2] == 'X' && board[3][4] == 'X' && board[3][6] == 'X') ||
+                (board[1][2] == 'X' && board[2][2] == 'X' && board[3][2] == 'X') ||
+                (board[1][4] == 'X' && board[2][4] == 'X' && board[3][4] == 'X') ||
+                (board[1][6] == 'X' && board[2][6] == 'X' && board[3][6] == 'X') ||
+                (board[1][2] == 'X' && board[2][4] == 'X' && board[3][6] == 'X') ||
+                (board[1][6] == 'X' && board[2][4] == 'X' && board[3][2] == 'X')) {
+            X = true;
+        }
+        if ((board[1][2] == 'O' && board[1][4] == 'O' && board[1][6] == 'O') ||
+                (board[2][2] == 'O' && board[2][4] == 'O' && board[2][6] == 'O') ||
+                (board[3][2] == 'O' && board[3][4] == 'O' && board[3][6] == 'O') ||
+                (board[1][2] == 'O' && board[2][2] == 'O' && board[3][2] == 'O') ||
+                (board[1][4] == 'O' && board[2][4] == 'O' && board[3][4] == 'O') ||
+                (board[1][6] == 'O' && board[2][6] == 'O' && board[3][6] == 'O') ||
+                (board[1][2] == 'O' && board[2][4] == 'O' && board[3][6] == 'O') ||
+                (board[1][6] == 'O' && board[2][4] == 'O' && board[3][2] == 'O')) {
+            O = true;
+        }
+        ArrayList<Character> y = new ArrayList<>();
+        Collections.sort(y);
+        for (char[] i : board){
+            for (char k:i ){
+                y.add(k);
+            }
+        }
+        for (char[] i : board){
+            for (char k:i ){
+                if(k == 'X'){
+                    numX++;
+                }else  if(k == 'O'){
+                    numO++;
+                }
+            }
+        }
+        if(X == true && O == true || abs(numO-numX) >= 2 ){
+            System.out.println("Impossible");
+        }else if(X == true && O == false ){
+            System.out.println("X wins");
+        }else if(X == false && O == true){
+            System.out.println("O wins");
+        }else if(X == false && O == false && numO+numX == 9){
+            System.out.println("draw");
+        }else if( numO+numX < 9){
+            System.out.println("Game not finished");
+        }
+    }
+
+    private static char[][] placePiece(char[][] c, char[] pos) {
+        c[1][2] = pos[0];
+        c[1][4] = pos[1];
+        c[1][6] = pos[2];
+        c[2][2] = pos[3];
+        c[2][4] = pos[4];
+        c[2][6] = pos[5];
+        c[3][2] = pos[6];
+        c[3][4] = pos[7];
+        c[3][6] = pos[8];
+        return c;
+    }
+
+    public static void printGameBoard(char[][] gameBoard) {
+        System.out.println();
+        for (char[] i : gameBoard) {
+            System.out.println(i);
+        }
+    }
+
+}
