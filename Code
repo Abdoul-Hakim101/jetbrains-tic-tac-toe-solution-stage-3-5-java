@@ -1,4 +1,4 @@
-package com.gohootjava.com;
+package tictactoe;
 
 import java.util.*;
 
